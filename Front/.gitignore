@@ -1,0 +1,10 @@
+# env files
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# node
+node_modules/
+dist/
+coverage/

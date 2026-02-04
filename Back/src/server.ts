@@ -1,3 +1,7 @@
+import dotenv from "dotenv";
+dotenv.config();
+
+
 import initApp from "./app";
 //import https from 'https';
 import http from 'http';
@@ -14,7 +18,7 @@ initApp().then((app) => {
         version: "1.0.1",
         description: "REST server including authentication using JWT and refresh token",
       },
-      servers: [{ url: "http://localhost:3000", },],
+      servers: [{ url: "http://localhost:3001", },],
     },
     apis: ["./src/routes/*.ts"],
   };

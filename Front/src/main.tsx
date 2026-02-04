@@ -10,7 +10,7 @@ import { AuthContextProvider } from './context/AuthContext.tsx'
 import { PostContextProvider } from './context/PostContext.tsx'
 import 'react-toastify/dist/ReactToastify.css';
 
-axios.defaults.baseURL = "http://localhost:3000"
+axios.defaults.baseURL = "http://localhost:3001"
 
 axios.interceptors.request.use((config) => {
   const token = localStorage.getItem('token')
@@ -28,7 +28,7 @@ const tokenExpiredInterceptor = async (config: AxiosError) => {
           // possibly call refreshToken()
           try {
           localStorage.removeItem('token') // remove expired token
-          const newToken = await fetch("http://localhost:3000/auth/refresh", {
+          const newToken = await fetch("http://localhost:3001/auth/refresh", {
             headers: {
               'Content-Type': "application/json",
               'Authorization': `Bearer ${token.refreshToken}`

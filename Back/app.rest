@@ -1,20 +1,20 @@
 ###
 
-GET http://localhost:3000/student
+GET http://localhost:3001/student
 
 ###
 
-GET http://localhost:3000/student?name=John%20Doe
-
-
-###
-
-GET http://localhost:3000/student/1234567891
+GET http://localhost:3001/student?name=John%20Doe
 
 
 ###
 
-POST http://localhost:3000/student
+GET http://localhost:3001/student/1234567891
+
+
+###
+
+POST http://localhost:3001/student
 Content-Type: application/json
 
 {
@@ -24,7 +24,7 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3000/auth/register
+POST http://localhost:3001/auth/register
 Content-Type: application/json
 
 {
@@ -34,7 +34,7 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3000/auth/login
+POST http://localhost:3001/auth/login
 Content-Type: application/json
 
 {

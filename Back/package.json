@@ -8,13 +8,11 @@
     "testAuth": "tsc && jest --detectOpenHandles --forceExit ./src/tests/auth.test.ts",
     "testPost": "tsc &&  jest --detectOpenHandles --forceExit --runInBand ./src/tests/student_post.test.ts",
     "start": "tsc && node ./dist/src/server.js",
-    "dev": "nodemon ./src/server.ts",
+    "dev": "TS_NODE_TRANSPILE_ONLY=true nodemon ./src/server.ts",
     "prod": "cp .envprod .env && tsc -p tsconfig_prod.json && pm2 restart ecosystem.config.js --env production",
     "prod1": "cp .envprod .env && tsc -p tsconfig_prod.json && node ./dist/src/server.js"
   },
-
-
-  "author": "Eliav Menachi",
+  "author": "Arielle Ben Ovadia",
   "license": "ISC",
   "dependencies": {
     "@react-oauth/google": "^0.12.1",
@@ -33,17 +31,16 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.2",
     "multer": "^1.4.5-lts.1",
+    "swagger-jsdoc": "^6.2.8",
     "ts-node": "^10.9.2",
-    "typescript": "^5.3.3",
-    "swagger-jsdoc": "^6.2.8"
+    "typescript": "^5.3.3"
   },
-
-  
   "devDependencies": {
     "@types/jest": "^29.5.11",
     "@types/multer": "^1.4.11",
     "@types/node": "^20.11.30",
     "@types/supertest": "^2.0.16",
+    "dotenv-cli": "^11.0.0",
     "jest": "^29.7.0",
     "nodemon": "^3.0.1",
     "supertest": "^6.3.3",
