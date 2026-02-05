@@ -1,15 +1,18 @@
 import mongoose, { Schema } from "mongoose";
 import { IPost } from "./user_post_model";
 
+export type Gender = "male" | "female";
+
 export interface IUser {
   email: string;
   password: string;
   imgUrl?: string;
   _id?: string;
-  posts: (Schema.Types.ObjectId | IPost)[]
+  posts: (Schema.Types.ObjectId | IPost)[];
   refreshTokens?: string[];
-  first_name: string
-  last_name: string
+  first_name: string;
+  last_name: string;
+  gender: Gender;
 }
 
 const userSchema = new mongoose.Schema<IUser>({
@@ -17,13 +20,13 @@ const userSchema = new mongoose.Schema<IUser>({
     type: String,
     required: true,
   },
-  first_name:  {
+  first_name: {
     type: String,
-    required:false
+    required: false,
   },
-  last_name:  {
+  last_name: {
     type: String,
-    required:false
+    required: false,
   },
   password: {
     type: String,
@@ -33,7 +36,14 @@ const userSchema = new mongoose.Schema<IUser>({
     type: String,
   },
 
-  posts: [{type: Schema.Types.ObjectId, ref:"Post"}],
+  // ✅ חדש
+  gender: {
+    type: String,
+    enum: ["male", "female"],
+    required: false,
+  },
+
+  posts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
   refreshTokens: {
     type: [String],
     required: false,

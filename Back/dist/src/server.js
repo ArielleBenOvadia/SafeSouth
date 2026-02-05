@@ -3,6 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const app_1 = __importDefault(require("./app"));
 //import https from 'https';
 const http_1 = __importDefault(require("http"));
@@ -18,7 +20,7 @@ const swagger_jsdoc_1 = __importDefault(require("swagger-jsdoc"));
                 version: "1.0.1",
                 description: "REST server including authentication using JWT and refresh token",
             },
-            servers: [{ url: "http://localhost:3000", },],
+            servers: [{ url: "http://localhost:3001", },],
         },
         apis: ["./src/routes/*.ts"],
     };
