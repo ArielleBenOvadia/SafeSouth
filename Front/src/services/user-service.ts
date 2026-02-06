@@ -32,7 +32,6 @@ export const loginUser = (email: string, password: string) => {
   });
 };
 
-// ✅ Google Sign-in לא מחייב gender
 export const googleSignin = (credentialResponse: CredentialResponse) => {
   return new Promise<IUser>((resolve, reject) => {
     console.log("googleSignin ...");

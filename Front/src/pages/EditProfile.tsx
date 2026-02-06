@@ -5,7 +5,7 @@ import { faImage, faClose } from "@fortawesome/free-solid-svg-icons";
 import { uploadPhoto } from "../services/file-service";
 import { editUser } from "../services/user-service";
 import { IUser, Gender, IUserWithPosts } from "../@Types";
-import Spinner from "./Spinner";
+import Spinner from "../components/Spinner";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import { useAuth } from "../context/AuthContext";

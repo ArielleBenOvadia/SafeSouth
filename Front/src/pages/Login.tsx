@@ -3,7 +3,7 @@ import { toast } from 'react-toastify'
 import { googleSignin, loginUser } from '../services/user-service'
 import { useAuth } from '../context/AuthContext'
 import AlreadyLoggedGuard from '../guards/AlreadyLoggedguard'
-import Spinner from './Spinner'
+import Spinner from '../components/Spinner'
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google'
 import { IToken, Gender } from '../@Types'
 
@@ -11,7 +11,6 @@ function Login() {
   const { setToken } = useAuth()
   const [loading, setLoading] = useState(false)
 
-  // ✅ חדש: gender לשימוש ב-Google (חובה אם זה משתמש חדש)
   const genderRef = useRef<HTMLSelectElement>(null)
 
   const login = async (e: React.FormEvent) => {
@@ -36,14 +35,9 @@ function Login() {
   }
 
   const onGoogleLoginSuccess = async (credentialResponse: CredentialResponse) => {
-    const gender = (genderRef.current?.value ?? "") as Gender
-    if (gender !== "male" && gender !== "female") {
-      toast.error("כדי להתחבר/להירשם עם Google חובה לבחור מין")
-      return
-    }
 
     try {
-      const res = await googleSignin(credentialResponse, gender)
+      const res = await googleSignin(credentialResponse)
       if (res.accessToken) {
         const t: IToken = {
           accessToken: res.accessToken,
@@ -89,14 +83,6 @@ function Login() {
         התחבר
       </button>
 
-      <div className="form-floating">
-        <select ref={genderRef} className="form-control" id="floatingGenderLogin" defaultValue="">
-          <option value="" disabled>בחרי מין (ל-Google)</option>
-          <option value="female">נקבה</option>
-          <option value="male">זכר</option>
-        </select>
-        <label htmlFor="floatingGenderLogin">מין (ל-Google)</label>
-      </div>
 
       <GoogleLogin onSuccess={onGoogleLoginSuccess} onError={onGoogleLoginFailure} />
 

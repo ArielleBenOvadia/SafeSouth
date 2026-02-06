@@ -9,7 +9,7 @@ import { registrUser, googleSignin } from '../services/user-service'
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google'
 import AlreadyLoggedGuard from '../guards/AlreadyLoggedguard'
 import { Gender, IUser } from '../@Types'
-import Spinner from './Spinner'
+import Spinner from '../components/Spinner'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router'
 

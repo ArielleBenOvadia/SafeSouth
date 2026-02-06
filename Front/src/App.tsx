@@ -1,10 +1,10 @@
 
 
-import Registration from "./components/Registration"
+import Registration from "./pages/Registration"
 import {Routes, Route, Navigate} from 'react-router-dom'
 import Feed from "./pages/Feed"
 import {ToastContainer} from 'react-toastify'
-import Login from "./components/Login"
+import Login from "./pages/Login"
 import Navbar from "./components/navBar/Navbar"
 import CreatePost from "./components/Post/CreatePost"
 import { useAuth } from "./context/AuthContext"
@@ -15,7 +15,7 @@ import Profile from "./pages/Profile"
 import logo from './assets/logo.png'
 import PostComments from "./components/Post/PostComments"
 import PostPage from "./components/Post/PostPage"
-import EditProfile from "./components/EditProfile"
+import EditProfile from "./pages/EditProfile"
 import completions from "./services/completions"
 
 const Logo = () => {
