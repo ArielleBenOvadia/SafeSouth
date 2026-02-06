@@ -103,7 +103,6 @@ function CreatePost() {
             return;
         }
 
-        // ✅ Google לא מחייב, אבל AI כן
         if (!gender) {
             toast.info("כדי ליצור פוסט בלשון נכונה, יש לבחור מין בעמוד עריכת פרופיל")
             nav("/edit-profile")
