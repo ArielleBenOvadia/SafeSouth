@@ -4,13 +4,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage, faClose } from "@fortawesome/free-solid-svg-icons";
 import { uploadPhoto } from "../services/file-service";
 import { editUser } from "../services/user-service";
-import { IUser, Gender } from "../@Types";
+import { IUser, Gender, IUserWithPosts } from "../@Types";
 import Spinner from "./Spinner";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import { useAuth } from "../context/AuthContext";
 import AuthorizedGuard from "../guards/AuthorizedGuard";
 import { normalizePosts, usePosts } from "../context/PostContext";
+import axios from "axios";
 
 function EditProfile() {
   const [imgSrc, setImgSrc] = useState<File>();
@@ -22,8 +23,6 @@ function EditProfile() {
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
-
-  // ✅ חדש: שדה מין
   const genderRef = useRef<HTMLSelectElement>(null);
 
   const { user: currentUser, setUser } = useAuth();
@@ -44,9 +43,7 @@ function EditProfile() {
 
     const first = firstNameRef.current?.value?.trim();
     const last = lastNameRef.current?.value?.trim();
-
-    // ✅ מין לא חובה (כדי לא לחסום Google), אבל אם רוצים לבחור — נשמור
-    const genderVal = genderRef.current?.value as Gender | "";
+    const genderVal = (genderRef.current?.value ?? "") as Gender | "";
 
     if (!first || !last) {
       toast.error("(:אנא מלא/י שם פרטי ושם משפחה");
@@ -64,31 +61,41 @@ function EditProfile() {
           ? passwordInputRef.current.value
           : currentUser.password;
 
-      // ✅ שימי לב: עכשיו שולחים gender לשרת
+      // ⚠️ חשוב: לא "למחוק" gender בטעות
+      // אם לא נבחר gender חדש, נשמור את הקיים (אם יש)
+      const finalGender =
+        genderVal === "male" || genderVal === "female" ? genderVal : currentUser.gender;
+
       const updatedUser: Partial<IUser> = {
         email: currentUser.email,
         password: pass,
         first_name: first,
         last_name: last,
         imgUrl: url,
-        posts: currentUser.posts.map((p: any) => p._id),
-
-        // אם נבחר מין -> שמור. אם לא נבחר (Google) -> אל תשלחי כלום.
-        ...(genderVal === "male" || genderVal === "female" ? { gender: genderVal } : {}),
+        posts: currentUser.posts.map((p: any) => (typeof p === "string" ? p : p._id)),
+        ...(finalGender ? { gender: finalGender } : {}),
       };
 
       const res = await editUser(updatedUser, pass !== currentUser.password);
-      if (res) {
-        updatePostOwner(res);
 
-        // שמירה ל-state כולל normalize של posts
-        setUser({ ...res, posts: normalizePosts(res.posts as any) });
-
-        toast.success("(:!הפרטים נשמרו בהצלחה");
-        nav("/profile");
-      } else {
+      if (!res) {
         toast.error("שגיאה בשמירת הפרטים");
+        return;
       }
+
+      // ✅ רענון קשיח מהשרת כדי לוודא שהבאק באמת שמר והחזיר gender
+      const me = await axios.get<IUserWithPosts>("/auth/me");
+      const freshUser = me.data;
+
+      if (freshUser?.posts) {
+        freshUser.posts = normalizePosts(freshUser.posts as any);
+      }
+
+      updatePostOwner(freshUser);
+      setUser(freshUser);
+
+      toast.success("(:!הפרטים נשמרו בהצלחה");
+      nav("/profile");
     } catch (e) {
       toast.error("שגיאה בשמירת הפרטים, נסי שוב מאוחר יותר");
     } finally {
@@ -110,6 +117,7 @@ function EditProfile() {
           src={(imgSrc ? URL.createObjectURL(imgSrc) : currentUser?.imgUrl) ?? avatar}
           style={{ height: "230px", width: "230px" }}
           className="object-contain"
+          alt="Profile"
         />
         <button type="button" className="btn position-absolute bottom-0 end-0" onClick={selectImg}>
           <FontAwesomeIcon icon={faImage} className="fa-xl" />
@@ -144,7 +152,6 @@ function EditProfile() {
         <label htmlFor="floatingLastName">שם משפחה</label>
       </div>
 
-      {/* ✅ חדש: מין (לא חובה כדי לא לחסום Google, אבל אם בוחרים זה נשמר) */}
       <div className="form-floating">
         <select
           ref={genderRef}
