@@ -1,10 +1,13 @@
 import { CredentialResponse } from "@react-oauth/google";
 import axios from "axios";
-import { IUser, IUserWithPosts, Gender } from "../@Types";
+import { IToken, IUser, IUserWithPosts } from "../@Types";
 
 export const registrUser = (user: Partial<IUser>) => {
   return new Promise<IUser>((resolve, reject) => {
-    axios.post("/auth/register", user)
+    console.log("Registering user...");
+    console.log(user);
+    axios
+      .post("/auth/register", user)
       .then((response) => resolve(response.data))
       .catch((error) => reject(error));
   });
@@ -13,24 +16,28 @@ export const registrUser = (user: Partial<IUser>) => {
 export const editUser = (user: Partial<IUser>, editedPass: boolean) => {
   return new Promise<IUserWithPosts>((resolve, reject) => {
     delete user._id;
-    axios.put("/auth", { user, editedPass })
+    axios
+      .put("/auth", { user, editedPass })
       .then((response) => resolve(response.data))
       .catch((error) => reject(error));
   });
 };
 
 export const loginUser = (email: string, password: string) => {
-  return new Promise<any>((resolve, reject) => {
-    axios.post("/auth/login", { email, password })
+  return new Promise<IToken>((resolve, reject) => {
+    axios
+      .post("/auth/login", { email, password })
       .then((response) => resolve(response.data))
       .catch((error) => reject(error));
   });
 };
 
-// ✅ שינוי: googleSignin מקבל גם gender
-export const googleSignin = (credentialResponse: CredentialResponse, gender: Gender) => {
+// ✅ Google Sign-in לא מחייב gender
+export const googleSignin = (credentialResponse: CredentialResponse) => {
   return new Promise<IUser>((resolve, reject) => {
-    axios.post("/auth/google", { ...credentialResponse, gender })
+    console.log("googleSignin ...");
+    axios
+      .post("/auth/google", credentialResponse)
       .then((response) => resolve(response.data))
       .catch((error) => reject(error));
   });

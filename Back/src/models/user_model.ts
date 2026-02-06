@@ -36,7 +36,6 @@ const userSchema = new mongoose.Schema<IUser>({
     type: String,
   },
 
-  // ✅ חדש
   gender: {
     type: String,
     enum: ["male", "female"],

@@ -13,7 +13,7 @@ export interface IUser {
   password: string;
   imgUrl?: string;
   accessToken?: string;
-  gender: Gender; // ✅ חובה
+  gender?: Gender,
   posts: (IPost | string)[];
   refreshToken?: string;
 }
