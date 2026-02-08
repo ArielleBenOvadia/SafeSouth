@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import studentPostRoute from "./routes/user_post_route";
 import studentPostCommentRoute from "./routes/post_comment_route";
-import cors from 'cors'
+import cors from 'cors' // מאפשר לפרונט לפנות לבאק
 import authRoute from "./routes/auth_route";
 import fileRoute from "./routes/file_route";
 

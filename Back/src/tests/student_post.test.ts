@@ -50,7 +50,7 @@ describe("Student post tests", () => {
   const addStudentPost = async (post: IPost) => {
     const response = await request(app)
         .post("/post")
-        .set("Authorization", "Bearer " + accessToken)
+        .set("Authorization", "Bearer " + accessToken) // ה bearer בודק שרק משתמש מחובר יכול לפרסם פוסט
         .send(post);
     post1._id  = response.body._id
     expect(response.statusCode).toBe(201);

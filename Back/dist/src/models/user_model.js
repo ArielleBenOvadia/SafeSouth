@@ -31,11 +31,11 @@ const userSchema = new mongoose_1.default.Schema({
     },
     first_name: {
         type: String,
-        required: false
+        required: false,
     },
     last_name: {
         type: String,
-        required: false
+        required: false,
     },
     password: {
         type: String,
@@ -43,6 +43,11 @@ const userSchema = new mongoose_1.default.Schema({
     },
     imgUrl: {
         type: String,
+    },
+    gender: {
+        type: String,
+        enum: ["male", "female"],
+        required: false,
     },
     posts: [{ type: mongoose_1.Schema.Types.ObjectId, ref: "Post" }],
     refreshTokens: {

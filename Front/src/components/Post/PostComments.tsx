@@ -24,7 +24,7 @@ export function CommentList<T extends IComment[]>({comments} : {comments: T}) {
 
 export default function PostComments() {
 
-    const {activePost, addComment, openActivePost, closeActivePost} = usePosts()
+    const {activePost, addComment, openActivePost, closeActivePost} = usePosts() // הקונטקסט הנוכחי
     const ref = useRef<HTMLInputElement | null>(null)
     const {user}  = useAuth()
 

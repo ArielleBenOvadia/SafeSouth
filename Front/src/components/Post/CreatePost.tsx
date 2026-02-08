@@ -25,7 +25,7 @@ function CreatePost() {
     const { user } = useAuth()
     const [imgSrc, setImgSrc] = useState<File | undefined>()
     const [loading, setLoading] = useState(false)
-    const { addPost, posts, editPost } = usePosts()
+    const { addPost, posts, editPost } = usePosts() // אזור באפליקציה שמתקשר עם הסרויס
     const capacityRef = useRef<HTMLInputElement | null>(null)
     const locationREf = useRef<HTMLInputElement | null>(null)
     const contentRef = useRef<HTMLTextAreaElement | null>(null)

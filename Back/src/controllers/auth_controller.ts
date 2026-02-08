@@ -40,7 +40,7 @@ const googleSignin = async (req: Request, res: Response) => {
                 email: user.email,
                 _id: user._id,
                 imgUrl: user.imgUrl,
-                gender: (user as any).gender, // ✅ יחזור undefined אם לא נקבע
+                gender: (user as any).gender,
                 ...tokens
             });
         }
@@ -58,7 +58,7 @@ const register = async (req: Request, res: Response) => {
         return res.status(400).send("missing email or password");
     }
 
-    // ✅ בהרשמה רגילה חובה לבחור מין
+
     if (gender !== "male" && gender !== "female") {
         return res.status(400).send("missing gender");
     }
@@ -77,7 +77,7 @@ const register = async (req: Request, res: Response) => {
             email,
             password: encryptedPassword,
             imgUrl,
-            gender, // ✅ נשמר
+            gender, 
         });
 
         const tokens = await generateTokens(created);
@@ -176,9 +176,7 @@ const editUser = async (req: any, res: Response) => {
             req.body.user.password = encryptedPassword;
         }
 
-        // ✅ FIX קריטי:
-        // returnOriginal לא אמין בגרסאות Mongoose חדשות → מחזיר לפעמים את המשתמש הישן
-        // new:true יחזיר את הדוקומנט המעודכן, runValidators יוודא enum של gender
+
         const rs = await User.findByIdAndUpdate(
             req.user._id,
             req.body.user,

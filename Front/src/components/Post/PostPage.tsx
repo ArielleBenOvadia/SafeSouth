@@ -16,7 +16,7 @@ export function CommentList2<T extends IComment[]>({comments} : {comments: T}) {
      </div>)}
  </div>
 }
-// a note for me
+
 
 
 export default function PostPage() {
